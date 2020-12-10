@@ -1,0 +1,205 @@
+<div class="row">
+  <div class="col-lg-12 grid-margin">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header">
+          <form #usuario="ngForm" autocomplete="off">
+            <h4 class="card-title"> Lista de Usuarios</h4>
+            <div class="text-right">
+              <button type="button" class="btn btn-info " value="Agregar" [routerLink]="['/dashboard']">
+                Agregar</button>
+            </div>
+          </form>
+        </div>
+        <h4 class="card-title">Usuarios</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cedula</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Fecha Nacimiento</th>
+                <th>Puesto</th>
+                <th>Nombre Usuario</th>
+                <th>Contraseña</th>
+                <th>Estatus</th>
+                <th>Borrado</th>
+                <th>Fecha Registro</th>
+                <th>Fecha Modificacion</th>
+                <th>Creado Por</th>
+                <th>Modificado Por</th>
+                <th>Operaciones</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let use of usuarios">
+                <td>{{use.nombre}}</td>
+                <td>{{use.apellido}}</td>
+                <td>{{use.cedula}}</td>
+                <td>{{use.correo}}</td>
+                <td>{{use.telefono}}</td>
+                <td>{{use.fechaNacimiento| date:'dd-MM-yyyy'}}</td>
+                <td>{{use.puesto.nombre}}</td>
+                <td>{{use.nombreUsuario}}</td>
+                <td>{{use.contrasena}}</td>
+                <td>{{use.estatus== "A" ? "Activo": "Inactivo" }}</td>
+                <td>{{use.borrado == "1" ? "Falso": "True"}}</td>
+                <td>{{use.fechaRegistro | date:'dd-MM-yyyy'}}</td>
+                <td>{{use.fechaModificacion| date:'dd-MM-yyyy'}}</td>
+                <td>{{use.usuarioC.nombre}}</td>
+                <td>{{use.usuarioM.nombre}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" value="Editar"
+                    (click)="openLgUs(contentUs, use.usuarioId)">Editar</button> |
+                  <input type="button" class="btn btn-danger" value="Eliminar" (click)="delete(use,modificadoPor)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #contentUs let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Editar Usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #userEdit="ngForm" autocomplete="off" (submit)="editUsuario(userEdit)">
+      <div class="main-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Editar Usuario - {{data.nombre}} </h5>
+              </div>
+              <div class="card-body">
+
+                <div class="row">
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Nombre</label>
+                      <input type="hidden" class="form-control" placeholder="usuarioId" [(ngModel)]='data.usuarioId'
+                        #usuarioId="ngModel" name="usuarioId">
+                      <input type="text" type="hidden" class="form-control" placeholder="creadoPor"
+                        [(ngModel)]='data.creadoPor' #creadoPor="ngModel" name="creadoPor">
+                      <input type="text" type="hidden" class="form-control" placeholder="modificadoPor"
+                        [(ngModel)]='data.modificadoPor' #modificadoPor="ngModel" name="modificadoPor">
+                      <input type="text" type="hidden" class="form-control" placeholder="fechaRegistro"
+                        [(ngModel)]='data.fechaRegistro' #fechaRegistro="ngModel" name="fechaRegistro">
+                      <input type="text" type="hidden" class="form-control" placeholder="fechaModificacion"
+                        [(ngModel)]='data.fechaModificacion' #fechaModificacion="ngModel" name="fechaModificacion">
+
+                      <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]='data.nombre'
+                        #nombre="ngModel" name="nombre">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Apellido</label>
+                      <input type="text" class="form-control" placeholder="Apellido" [(ngModel)]='data.apellido'
+                        #apellido="ngModel" name="apellido">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Cedula</label>
+                      <input type="text" class="form-control" placeholder="Cedula" [(ngModel)]='data.cedula'
+                        #cedula="ngModel" name="cedula">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Correo</label>
+                      <input type="text" class="form-control" placeholder="Correo" [(ngModel)]='data.correo'
+                        #correo="ngModel" name="correo">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Telefono</label>
+                      <input type="text" class="form-control" placeholder="Telefono" [(ngModel)]='data.telefono'
+                        #telefono="ngModel" name="telefono">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Fecha Nacimiento</label>
+                      <input type="datetime-local" class="form-control" placeholder="Fecha Nacimiento"
+                        [(ngModel)]='data.fechaNacimiento' #fechaNacimiento="ngModel" name="fechaNacimiento">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Nombre Usuario</label>
+                      <input type="text" class="form-control" placeholder="Nombre Usuario"
+                        [(ngModel)]='data.nombreUsuario' #nombreUsuario="ngModel" name="nombreUsuario">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Contraseña</label>
+                      <input type="text" class="form-control" placeholder="Contraseña" [(ngModel)]='data.contrasena'
+                        #contrasena="ngModel" name="contrasena">
+                    </div>
+                  </div>
+                  <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                      <label>Estatus</label>
+                      <input type="text" class="form-control" placeholder="Estatus" [(ngModel)]='data.estatus'
+                        #estatus="ngModel" name="estatus">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label>Borrado</label>
+                      <input type="text" class="form-control" placeholder="Borrado" [(ngModel)]='data.borrado'
+                        #borrado="ngModel" name="borrado">
+                    </div>
+                  </div>
+                  <div class="col-md-6 pl-1">
+                    <div class="form-group">
+                      <label>Puesto</label>
+                      <input type="number" class="form-control" placeholder="Puesto" [(ngModel)]='data.puestoID'
+                        #puestoID="ngModel" name="puestoID">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="update ml-auto mr-auto">
+                    <input type="submit" class="btn btn-info" value="Guardar" (click) = reloadPage()/> | 
+                    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

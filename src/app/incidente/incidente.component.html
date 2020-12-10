@@ -1,0 +1,232 @@
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header">
+                    <form #usuario="ngForm" autocomplete="off">
+                        <h4 class="card-title"> Lista Incidentes</h4>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-info " value="Agregar"
+                                [routerLink]="['/add-incidente']"> Agregar</button>
+                        </div>
+                    </form>
+                </div>
+                <h4 class="card-title">Incidentes</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Prioridad</th>
+                                <th>Departamento</th>
+                                <th>Titulo</th>
+                                <th>Descripción</th>
+                                <th>Fecha de cierre</th>
+                                <th>Comentario de cierre</th>
+                                <th>Estatus</th>
+                                <th>Borrado</th>
+                                <th>Usuario Reporta</th>
+                                <th>Usuario Asignado</th>
+                                <th>Fecha Registro</th>
+                                <th>Fecha Modificación</th>
+                                <th>Acción</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let inc of incidentes">
+                                <td>{{inc.prioridad.nombre}}</td>
+                                <td>{{inc.departamento.nombre}}</td>
+                                <td>{{inc.titulo}}</td>
+                                <td>{{inc.descripcion}}</td>
+                                <td>{{inc.fechaCierre}}</td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="ComentarioCierrre"
+                                        [(ngModel)]='inc.coemntarioCierrre' #coemntarioCierrre="ngModel"
+                                        name="coemntarioCierrre">
+                                </td>
+                                <td>{{inc.estatus == 'AC' ? 'Activo' : 'Inactivo' }}</td>
+                                <td>{{inc.borrado ? 'Si' : 'No'}}</td>
+                                <td>{{inc.usuarioReportaId}}</td>
+                                <td>{{inc.usuarioAsignadoId}}</td>
+                                <td>{{inc.fechaRegistro |  date:'dd-MM-yyyy' }}</td>
+                                <td>{{inc.fechaModificacion |  date:'dd-MM-yyyy' }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" value="Editar"
+                                        (click)="openLgIn(contentIn , dep.incidenteId)">Editar</button> |
+                                    <input type="button" class="btn btn-danger" value="Eliminar"
+                                        (click)="delete(dep,modificadoPor)">
+                                    <!-- <input type="button" class="btn btn-success" [disabled]="review_btn" value="Nomina" (click)="openLg(content, emp.id)">  -->
+                                </td>
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #contentIn let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Editar Incidente</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #IncEdit="ngForm" autocomplete="off" (submit)="editIncidente(IncEdit)">
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="title">Editar Incidente - {{data.descripcion}}</h5>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Descripcion</label>
+                                            <!-- <input type="text" class="form-control" placeholder="Nombre" > -->
+                                            <input type="text" type="hidden" class="form-control"
+                                                placeholder="incidenteId" [(ngModel)]='data.incidenteId'
+                                                #incidenteId="ngModel" name="incidenteId">
+                                            <input type="text" type="hidden" class="form-control"
+                                                placeholder="creadoPor" [(ngModel)]='data.creadoPor'
+                                                #creadoPor="ngModel" name="creadoPor">
+                                            <input type="text" type="hidden" class="form-control"
+                                                placeholder="modificadoPor" [(ngModel)]='data.modificadoPor'
+                                                #modificadoPor="ngModel" name="modificadoPor">
+                                            <input type="text" type="hidden" class="form-control"
+                                                placeholder="fechaRegistro" [(ngModel)]='data.fechaRegistro'
+                                                #fechaRegistro="ngModel" name="fechaRegistro">
+                                            <input type="text" type="hidden" class="form-control"
+                                                placeholder="fechaModificacion" [(ngModel)]='data.fechaModificacion'
+                                                #fechaModificacion="ngModel" name="fechaModificacion">
+
+                                            <input type="text" class="form-control" placeholder="Descripcion"
+                                                [(ngModel)]='data.descripcion' #descripcion="ngModel"
+                                                name="descripcion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Titulo</label>
+                                            <input type="text" class="form-control" placeholder="Titulo"
+                                                [(ngModel)]='data.titulo' #titulo="ngModel" name="titulo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-1">
+                                        <div class="form-group">
+                                            <label>Fecha de cierre</label>
+                                            <input type="datetime-local" class="form-control"
+                                                placeholder="Fecha de cierre" [(ngModel)]='data.fechaCierre'
+                                                #fechaCierre="ngModel" name="fechaCierre">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <input type="text" class="form-control" placeholder="Descripcion"
+                                                [(ngModel)]='data.descripcion' #descripcion="ngModel"
+                                                name="descripcion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Cierre</label>
+                                            <input type="datetime-local" class="form-control" placeholder="fechaCierre"
+                                                [(ngModel)]='data.fechaCierre' #fechaCierre="ngModel"
+                                                name="fechaCierre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Comentario Cierre</label>
+                                            <input type="text" class="form-control" placeholder="Comentario Cierre"
+                                                [(ngModel)]='data.coemntarioCierrre' #coemntarioCierrre="ngModel"
+                                                name="coemntarioCierrre">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <label>Usuario Reporta</label>
+                                        <select id="usuarioReportaId" class="form-control" [(ngModel)]='data.usuarioReportaId' #usuarioReportaId="ngModel" name="usuarioReportaId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let userep of usuario" value="{{userep.usuarioId}}">{{userep.nombreUsuario}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <label>Usuario Asignado</label>
+                                        <select id="usuarioAsignadoId" class="form-control" [(ngModel)]='data.usuarioAsignadoId' #usuarioAsignadoId="ngModel" name="usuarioAsignadoId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let useAsig of usuario" value="{{useAsig.usuarioId}}">{{useAsig.nombreUsuario}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <label>Prioridad</label>
+                                        <select id="prioridadId" class="form-control" [(ngModel)]='data.prioridadId' #prioridadId="ngModel" name="prioridadId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let pr of prioridad" value="{{pr.prioridadId}}">{{pr.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <label>Departamento</label>
+                                        <select id="departamentoId" class="form-control" [(ngModel)]='data.departamentoId' #departamentoId="ngModel" name="departamentoId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let dep of departamento" value="{{dep.departamentoId}}">{{dep.nombre}}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Borrado</label>
+                                            <select id="borrado" class="form-control" [(ngModel)]='data.borrado'
+                                                #borrado="ngModel" name="borrado">
+                                                <option value="" selected>--Seleccione--</option>
+                                                <option value="true">Si</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Estatus</label>
+                                            <select id="estatus" class="form-control" [(ngModel)]='data.estatus'
+                                                #estatus="ngModel" name="estatus">
+                                                <option value="" selected>--Seleccione--</option>
+                                                <option value="AC">Activo</option>
+                                                <option value="IN">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <input type="submit" class="btn btn-info" value="Guardar" />
+                                        <input type="button" class="btn btn-danger" value="Cancelar"
+                                            (click)="modal.close('Close click')" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

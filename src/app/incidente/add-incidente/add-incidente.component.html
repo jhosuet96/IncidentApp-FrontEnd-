@@ -1,0 +1,142 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <label><h2>Nuevo incidente</h2></label>
+                </div>
+                <div class="card-body">
+                <form #inAdd="ngForm" autocomplete="off" (ngSubmit)="addIncidente(inAdd)">
+                    <div class="">
+                        <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                            <div class="card-header">
+                                <h5 class="title">Incidentes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <label>Usuario Reporta</label>
+                                        <select id="usuarioReportaId" class="form-control" [(ngModel)]='objInc.usuarioReportaId' #usuarioReportaId="ngModel" name="usuarioReportaId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let usurep of usuario" value="{{usurep.usuarioId}}">{{usurep.nombreUsuario}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <label>Usuario Asignado</label>
+                                        <select id="usuarioAsignadoId" class="form-control" [(ngModel)]='objInc.usuarioAsignadoId' #usuarioAsignadoId="ngModel" name="usuarioAsignadoId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let usuAsig of usuario" value="{{usuAsig.usuarioId}}">{{usuAsig.nombreUsuario}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <label>Prioridad</label>
+                                        <select id="prioridadId" class="form-control" [(ngModel)]='objInc.prioridadId' #prioridadId="ngModel" name="prioridadId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let pri of prioridad" value="{{pri.prioridadId}}">{{pri.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <label>Departamento</label>
+                                        <select id="departamentoId" class="form-control" [(ngModel)]='objInc.departamentoId' #departamentoId="ngModel" name="departamentoId">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option *ngFor="let dep of departamento" value="{{dep.departamentoId}}">{{dep.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Titulo</label>
+                                            <input type="text" class="form-control" placeholder="Titulo" [(ngModel)]='objInc.titulo' #titulo="ngModel" name="titulo">
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <input type="text" class="form-control" placeholder="Descripcion" [(ngModel)]='objInc.descripcion' #descripcion="ngModel" name="descripcion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Cierre</label>
+                                            <input type="datetime-local" class="form-control" placeholder="fechaCierre" [(ngModel)]='objInc.fechaCierre' #fechaCierre="ngModel" name="fechaCierre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Comentario Cierre</label>
+                                            <input type="text" class="form-control" placeholder="Comentario Cierre" [(ngModel)]='objInc.coemntarioCierrre' #coemntarioCierrre="ngModel" name="coemntarioCierrre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Borrado</label>
+                                            <select id="borrado" class="form-control" [(ngModel)]='objInc.borrado' #borrado="ngModel" name="borrado">
+                                            <option value="" selected>--Seleccione--</option>
+                                            <option value="true">Si</option>
+                                            <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div> 
+                                     <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Estatus</label>
+                                            <select id="estatus" class="form-control" [(ngModel)]='objInc.estatus' #estatus="ngModel" name="estatus">
+                                                <option value="" selected>--Seleccione--</option>
+                                                <option value="AC">Activo</option>
+                                                <option value="IN">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Registro</label>
+                                            <input type="datetime-local" class="form-control" placeholder="Fecha Registro" [(ngModel)]='objInc.fechaRegistro' #fechaRegistro="ngModel" name="fechaRegistro">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Registro</label>
+                                            <input type="datetime-local" class="form-control" placeholder="Fecha Registro" [(ngModel)]='objInc.fechaRegistro' #fechaRegistro="ngModel" name="fechaRegistro">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Fecha Modificación</label>
+                                            <input type="datetime-local" class="form-control" placeholder="Fecha Modificacion" [(ngModel)]='objInc.fechaModificacion' #fechaModificacion="ngModel" name="fechaModificacion">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <input type="submit" class="btn btn-warning" value="Guardar" /> | 
+                                <button type="button" class="btn btn-danger"  [routerLink]="['/incidente']">Cancelar</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </form>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

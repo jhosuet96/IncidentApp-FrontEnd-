@@ -1,0 +1,130 @@
+
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header">
+            <form #usuario="ngForm" autocomplete="off" >
+            <h4 class="card-title"> Lista Sla</h4>
+            <div class="text-right">
+              <button type="button" class="btn btn-info "  value="Agregar" [routerLink]="['/add-sla']"> Agregar</button>          
+            </div>
+            </form>
+          </div>
+          <h4 class="card-title">Sla</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Descripcion</th>        
+                  <th>Cantdad Horas</th>       
+                  <th>Estatus</th>
+                  <th>Borrado</th>
+                  <th>Fecha Registro</th>
+                  <th>Fecha Modificacion</th>
+                  <th>Creado Por</th>
+                  <th> Modificado Por</th>              
+                  <th>Operaciones</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pus of sla">
+                  <td>{{pus.descripcion}}</td>         
+                  <td>{{pus.cantdadHoras}}</td>        
+                  <td>{{pus.estatus== "A" ? "Activo": "Inactivo" }}</td>
+                  <td >{{pus.borrado == "1" ? "Falso": "True"}}</td>
+                  <td>{{pus.fechaRegistro | date:'dd-MM-yyyy'}}</td>
+                  <td>{{pus.fechaModificacion | date:'dd-MM-yyyy'}}</td>
+                  <td>{{pus.creadoPor}}</td>
+                  <td>{{pus.modificadoPor}}</td>
+                  <td>
+                    <button type="button" class="btn btn-warning" value="Editar" (click)="openLgSla(contentSla , pus.slaId)" >Editar</button> |
+                    <input type="button" class="btn btn-danger" value="Eliminar"(click)="delete(pus,modificadoPor)">  
+                    <!-- <input type="button" class="btn btn-success" [disabled]="review_btn" value="Nomina" (click)="openLg(content, emp.id)">  -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #contentSla let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Editar SlaS</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #SlaEdit="ngForm" autocomplete="off" (submit)="editSla(SlaEdit)">
+        <div class="main-content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="title">Editar Sla - {{data.descripcion}}</h5> 
+                </div>
+                <div class="card-body">
+                   
+                  <div class="row">
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Descripcion</label>
+                        <!-- <input type="text" class="form-control" placeholder="Nombre" > -->
+                        <input type="number" type ="hidden" class="form-control" placeholder="slaId" [(ngModel)]='data.slaId' #slaId="ngModel" name="slaId">                       
+                        <input type="text" type ="hidden" class="form-control" placeholder="creadoPor" [(ngModel)]='data.creadoPor' #creadoPor="ngModel" name="creadoPor"> 
+                        <input type="text" type ="hidden" class="form-control" placeholder="modificadoPor" [(ngModel)]='data.modificadoPor' #modificadoPor="ngModel" name="modificadoPor"> 
+                        <input type="text" type ="hidden" class="form-control" placeholder="fechaRegistro" [(ngModel)]='data.fechaRegistro' #fechaRegistro="ngModel" name="fechaRegistro"> 
+                        <input type="text" type ="hidden" class="form-control" placeholder="fechaModificacion" [(ngModel)]='data.fechaModificacion' #fechaModificacion="ngModel" name="fechaModificacion"> 
+  
+                        <input type="text" class="form-control" placeholder="Descripcion" [(ngModel)]='data.descripcion' #descripcion="ngModel" name="descripcion">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Cantdad Horas</label>
+                        <input type="number" class="form-control" placeholder="Cantdad Horas" [(ngModel)]='data.cantdadHoras' #cantdadHoras="ngModel" name="cantdadHoras">
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Estatus</label>
+                        <input type="text" class="form-control" placeholder="Estatus" [(ngModel)]='data.estatus' #estatus="ngModel" name="estatus">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Borrado</label>
+                        <select name="borrado" id="borrado" class="form-control"  [(ngModel)]="data.borrado" #borrado="ngModel" name="borrado">
+                          <option value="null" selected >--Seleccione--</option>
+                          <option value="false">False</option>
+                          <option value="true">True</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <input type="submit" class="btn btn-info"  value="Guardar" />
+                      <input type="button" class="btn btn-danger" value="Cancelar" (click)="modal.close('Close click')"/>
+                    </div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  
